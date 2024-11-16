@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="fa">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <link rel="stylesheet" href={% static "assets/css/persian.datepicker.css" %}/>
+    <script src={% static "assets/js/jquery.js" %}></script>
+    <script src={% static "assets/js/persian.date.js" %}></script>
+    <script src={% static "assets/js/persian.datepicker.js" %}></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href={% static 'assets/imgs/theme/favicon.svg' %}>
+    <!-- Template CSS -->
+    <link rel="stylesheet" href={% static 'assets/css/main.css' %}>
+    <link rel="stylesheet" href= {% static "assets/css/persian-datepicker.css" %}>
+    <meta name="csrf-token" content="{% csrf_token %}">
+
+
+</head>
+<body>
+<main class="main">
+    <section class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <ul>
+                                            <li>
+                                                {% if request.user.is_authenticated %}
+                                                    <li><a href="#">{{ request.user.email }}</a></li>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                        <h3 class="mb-30">"Login"</h3>
+                                    </div>
+                                    <form method="POST" action="{% url 'user:login' %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ form.email.errors }}
+                                            <input type="text" required="required" name="email"
+                                                   placeholder="Email">
+                                            {{ form.email.help_text }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.password.errors }}
+                                            <input required="required" type="password" name="password"
+                                                   placeholder="Password">
+                                            {{ form.password.help_text }}
+                                        </div>
+                                        <input type="hidden" name="next" value="{{ next }}">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-fill-out btn-block hover-up ">
+                                                "Login"
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-6">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-5">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h3 class="mb-30">"Create an Account"</h3>
+                                    </div>
+                                    <p class="mb-50 font-sm">
+                                        "All account information will remain private after registration. Your data will
+                                        not be listed on Google, so rest assured."
+                                    </p>
+                                    <form method="POST" action="{% url 'user:register' %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" required name="email"
+                                                   placeholder="Email Address">
+                                        </div>
+                                        <div class="form-group">
+                                            <input required type="password" name="password"
+                                                   placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input required type="password" name="confirm_password"
+                                                   placeholder="Confirm Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-fill-out btn-block hover-up"
+                                                    name="register">
+                                                "Submit, Register"
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<!-- Preloader start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="text-center">
+                <h5 class="mb-5">در حال بارگذاری</h5>
+                <div class="loader">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vendor JS-->
+<link rel="stylesheet" href="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css">
+<script type="text/javascript"
+        src="https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
+
+<script>
+    jalaliDatepicker.startWatch()
+</script>
+<script src={% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}></script>
+<script src={% static "assets/js/vendor/jquery-3.6.0.min.js" %}></script>
+<script src={% static "assets/js/vendor/jquery-migrate-3.3.0.min.js" %}></script>
+<script src={% static "assets/js/vendor/bootstrap.bundle.min.js" %}></script>
+<script src={% static "assets/js/plugins/slick.js" %}></script>
+<script src={% static "assets/js/plugins/jquery.syotimer.min.js" %}></script>
+<script src={% static "assets/js/plugins/wow.js" %}></script>
+<script src={% static "assets/js/plugins/jquery-ui.js" %}></script>
+<script src={% static "assets/js/plugins/perfect-scrollbar.js" %}></script>
+<script src={% static "assets/js/plugins/magnific-popup.js" %}></script>
+<script src={% static "assets/js/plugins/select2.min.js" %}></script>
+<script src={% static "assets/js/plugins/waypoints.js" %}></script>
+<script src={% static "assets/js/plugins/counterup.js" %}></script>
+<script src={% static "assets/js/plugins/jquery.countdown.min.js" %}></script>
+<script src={% static 'assets/js/plugins/images-loaded.js' %}></script>
+<script src={% static "assets/js/plugins/isotope.js" %}></script>
+<script src={% static "assets/js/plugins/scrollup.js" %}></script>
+<script src={% static "assets/js/plugins/jquery.vticker-min.js" %}></script>
+<script src={% static "assets/js/plugins/jquery.theia.sticky.js" %}></script>
+<script src={% static "assets/js/main.js" %}></script>
+<script src={% static "assets/js/vendors/jquery.fullscreen.min.js" %}></script>
+<script src={% static "assets/js/main.js" %} type="text/javascript"></script>
+<script src={% static "assets/js/custom-chart.js" %} type="text/javascript"></script>
+<script src={% static "assets/js/app.js" %}type="text/javascript"></script>
+<script src={% static "assets/js/persian-date.js" %}></script>
+<script src={% static "assets/js/plugins/jquery.elevatezoom.js" %}></script>
+<!-- Template  JS -->
+<script src={% static "assets/js/shop.js" %}></script>
+
+</body>
+
+
+</html>

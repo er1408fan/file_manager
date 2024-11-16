@@ -1,0 +1,72 @@
+
+body {
+    background-color: rgba(167, 250, 205, 0.8);
+    color: #000000;
+
+}
+
+#header {
+    background-color: rgba(114, 113, 113, 0.5);
+    color: #e80202;
+}
+
+.module {
+    border: 1px solid #eaf2ff;
+    background-color: #2a6d91;
+}
+
+.actionlist{
+    background: rgba(242, 245, 248, 0.7);
+
+
+}
+
+h1{
+    color: #001548;
+}
+
+.sticky{
+    background: rgba(167, 250, 205, 0.8);
+}
+
+#nav-sidebar{
+    background: rgba(114, 113, 113, 0.5);
+
+}
+
+#nav-filter{
+    background: #565454;
+}
+
+
+.sidebar {
+    background-color: #e0f7fa;
+}
+
+
+.login-container {
+    background-color: #004d40;
+    color: #ffffff;
+}
+
+
+.changelist-container th {
+    font-size: 16px;
+    color: #00695c;
+}
+
+
+.button {
+    background-color: #00796b;
+    border-color: #004d40;
+    color: white;
+}
+
+th{
+  background: rgba(233, 238, 243, 0.42);
+}
+
+td{
+    background: rgba(233, 238, 243, 0.42);
+}
+

@@ -1,0 +1,172 @@
+@font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/thin.woff2') format('woff2');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/extralight.woff2') format('woff2');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/light.woff2') format('woff2');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/semibold.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/extrabold.woff2') format('woff2');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: "vazirmatn";
+	src: url('../../fonts/vazirmatn/black.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+
+
+
+
+  /* Yekan Bakh Fonts */
+  /* @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-Bold.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-ExtraBlack.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-ExtraBold.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-Light.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-Regular.woff') format('woff');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff/YekanBakhFaNum-SemiBold.woff') format('woff');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+  }
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-Bold.woff') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-ExtraBlack.woff') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-ExtraBold.woff') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-Light.woff') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-Regular.woff') format('woff2');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+  }
+  
+  @font-face {
+	font-family: yekanbakh;
+	src: url('../../fonts/yekanbakh/woff2/YekanBakhFaNum-SemiBold.woff') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+  } */
+  
