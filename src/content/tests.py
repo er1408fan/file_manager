@@ -7,7 +7,6 @@ from django.utils import timezone
 
 
 
-
 class FileAndFolderTests(TestCase):
 
     def setUp(self):
