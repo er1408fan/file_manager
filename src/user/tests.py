@@ -81,8 +81,8 @@ class UserRegistrationViewTest(TestCase):
     def test_passwords_match_in_registration_form(self):
         form_data = {
             'email': 'testuser@example.com',
-            'password': 'password123',
-            'confirm_password': 'password123',
+            'password': 'password@123',
+            'confirm_password': 'password@123',
         }
         form = UserRegistrationForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -90,9 +90,9 @@ class UserRegistrationViewTest(TestCase):
     def test_passwords_do_not_match_in_registration_form(self):
         form_data = {
             'email': 'testuser@example.com',
-            'password': 'password123',
-            'confirm_password': 'differentpassword123',
+            'password': 'password@123',
+            'confirm_password': 'differentpassword@123',
         }
         form = UserRegistrationForm(data=form_data)
         self.assertFalse(form.is_valid())
-        self.assertIn('Passwords do not match.', form.errors['__all__'])
+        self.assertIn('Passwords do not match.', form.errors['confirm_password'])

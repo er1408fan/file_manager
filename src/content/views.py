@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
 
 
 @login_required(login_url='user:login')
@@ -39,6 +41,7 @@ def create_folder(request):
                     'id': folder.id,
                     'name': folder.name,
                     'delete_url': reverse_lazy('content:delete_folder', args=[folder.id]),
+                    'view_url': reverse_lazy('content:view_folder', args=[folder.id]),
                 }
             })
     return JsonResponse({'success': False})
@@ -68,16 +71,19 @@ def create_file(request):
                 file.folder = get_object_or_404(Folder, id=parent_folder_id, user=request.user)
 
             file.save()
+
             return JsonResponse({
                 'success': True,
                 'file': {
                     'id': file.id,
+                    'duration': file.get_duration(),
                     'name': file.name,
                     'thumbnail': file.get_thumbnail_url(),
                     'created_at': file.created_at,
                     'type': file.file_type,
                     'size': file.size,
-                    'delete_url': reverse_lazy('content:delete_file', args=[file.id])
+                    'delete_url': reverse_lazy('content:delete_file', args=[file.id]),
+                    'rename_url': reverse_lazy('content:rename_file', args=[file.id])
                 }
             })
         else:
@@ -92,23 +98,42 @@ def create_file(request):
 @login_required(login_url='user:login')
 def view_folder(request, folder_id):
     """
-        Displays the contents of a specific folder, including files and subfolders.
+            Displays the contents of a specific folder, including files and subfolders.
 
-        Fetches the folder based on the provided folder_id and the logged-in user.
-        Renders a template displaying files and subfolders within the folder.
+            Fetches the folder based on the provided folder_id and the logged-in user.
+            Renders a template displaying files and subfolders within the folder.
 
-        Returns:
-        - HttpResponse: The rendered template showing the folder contents.
-    """
+            Returns:
+            - HttpResponse: The rendered template showing the folder contents.
+        """
     folder = get_object_or_404(Folder, id=folder_id, user=request.user)
-
     files = File.objects.filter(folder=folder)
     sub_folders = Folder.objects.filter(parent_folder=folder)
 
-    return render(request, 'user_files_and_folders.html', { \
+    for file in files:
+        if file.file_type == 'video':
+            try:
+                parser = createParser(file.file.path)
+                if parser:
+                    metadata = extractMetadata(parser)
+                    if metadata and metadata.has("duration"):
+                        duration_in_seconds = metadata.get("duration").seconds
+                        minutes, seconds = divmod(duration_in_seconds, 60)
+                        file.duration = f"{minutes}m {seconds}s"
+                    else:
+                        file.duration = "N/A"
+                else:
+                    file.duration = "N/A"
+            except Exception as e:
+                file.duration = "N/A"
+
+    breadcrumbs = folder.get_breadcrumbs()
+
+    return render(request, 'user_files_and_folders.html', {
         'current_folder': folder,
         'files': files,
         'sub_folders': sub_folders,
+        'breadcrumbs': breadcrumbs,
     })
 
 
@@ -126,6 +151,23 @@ def user_files_and_folders(request):
        """
     folders = Folder.objects.filter(user=request.user, parent_folder__isnull=True)
     files = File.objects.filter(user=request.user, folder__isnull=True)
+
+    for file in files:
+        if file.file_type == 'video':
+            try:
+                parser = createParser(file.file.path)
+                if parser:
+                    metadata = extractMetadata(parser)
+                    if metadata and metadata.has("duration"):
+                        duration_in_seconds = metadata.get("duration").seconds
+                        minutes, seconds = divmod(duration_in_seconds, 60)
+                        file.duration = f"{minutes}m {seconds}s"
+                    else:
+                        file.duration = "N/A"
+                else:
+                    file.duration = "N/A"
+            except Exception as e:
+                file.duration = "N/A"
 
     response = render(request, 'user_files_and_folders.html', {
         'folders': folders,

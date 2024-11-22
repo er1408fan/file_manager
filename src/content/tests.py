@@ -1,3 +1,6 @@
+import io
+
+from PIL import Image
 from django.test import TestCase
 from django.urls import reverse, reverse_lazy
 from user.models import User
@@ -5,6 +8,13 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from content.models import Folder, File
 from django.utils import timezone
 
+
+def create_test_image():
+    image = Image.new('RGB', (100, 100), color='red')
+    image_file = io.BytesIO()
+    image.save(image_file, format='PNG')
+    image_file.seek(0)
+    return SimpleUploadedFile('testfile.png', image_file.read(), content_type='image/png')
 
 
 class FileAndFolderTests(TestCase):
@@ -23,6 +33,8 @@ class FileAndFolderTests(TestCase):
         self.test_file = SimpleUploadedFile(
             'testfile.png', b'file_content', content_type='image/png')
 
+        self.test_file = create_test_image()
+
     def test_create_folder(self):
         url = reverse('content:create_folder')
         data = {'name': 'New Folder', 'parent_folder': self.folder.id}
@@ -37,11 +49,17 @@ class FileAndFolderTests(TestCase):
 
     def test_create_file(self):
         url = reverse_lazy('content:create_file')
-        data = {'name': 'Test File', 'file': self.test_file, 'parent_folder': self.folder.id}
+        data = {
+            'name': 'Test File',
+            'parent_folder': self.folder.id,
+            'file': self.test_file,  # Include the file here
+        }
 
         response = self.client.post(url, data, follow=True)
+
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.json()['success'])
+        # self.assertTrue(response.json()['success'])
+        self.assertTrue(response.json().get('success'), "File creation failed: " + str(response.json()))
 
         # Check if the file is saved in the database
         file = File.objects.get(name='Test File')

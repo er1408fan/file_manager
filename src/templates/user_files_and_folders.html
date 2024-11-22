@@ -37,8 +37,32 @@
             {% endif %}
         </div>
 
-        <!-- Heading -->
 
+    <!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-light px-3 py-2 rounded">
+        <li class="breadcrumb-item">
+            <a href="{% url 'content:user_files_and_folders'  %}" class="text-decoration-none">
+                <i class="bi bi-house-door-fill"></i> Home
+            </a>
+        </li>
+        {% for breadcrumb in breadcrumbs %}
+            {% if forloop.last %}
+                <!-- Current folder (active item) -->
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="bi bi-folder-fill text-warning"></i> {{ breadcrumb.name }}
+                </li>
+            {% else %}
+                <!-- Parent folders (clickable links) -->
+                <li class="breadcrumb-item">
+                    <a href="{% url 'content:view_folder' breadcrumb.id %}" class="text-decoration-none">
+                        <i class="bi bi-folder-fill text-warning"></i> {{ breadcrumb.name }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+</nav>
 
         <!-- Search Form -->
         <form class="d-flex mb-3 w-100" method="GET" action="{% url 'content:search_files' %}">
@@ -137,8 +161,14 @@
                 <td>
                     <div class="d-flex align-items-center">
                         <!-- Image Section -->
-                        <img src="{{ file.get_thumbnail_url }}" alt="{{ file.name }}"
+                        {% if file.type == 'image' %}
+                            <img src="{{ file.thumbnail }}" alt="{{ file.name }}"
                              style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                            {% else %}
+                            <img src="{{ file.get_thumbnail_url }}" alt="{{ file.name }}"
+                             style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                        {% endif %}
+
 
                         <!-- Text Section -->
                         <div>
@@ -207,9 +237,11 @@
                     <input type="text" class="form-control" id="id_name" name="name">
                 </div>
                 <div class="modal-body">
+                    <div id="formErrors" class="alert alert-danger" style="display: none;"></div>
                     <input type="file" name="file" class="form-control" required>
                     <input type="hidden" name="parent_folder" value="{{ current_folder.id }}">
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Upload</button>
@@ -367,7 +399,7 @@
                 <tr id="folder_${data.folder.id}">
 <td>
                         <i class="bi bi-folder-fill text-warning" style="font-size: 2.1rem"></i>
-                        <a href="${data.folder.id}"
+                        <a href="${data.folder.view_url}"
                            class="text-decoration-none folder-link ">${data.folder.name}</a>
                     </td>
 
@@ -378,7 +410,11 @@
                         <a href="#" class="text-danger me-2 delete-folder" data-folder-id="${data.folder.id}" title="Delete">
                             <i class="bi bi-trash"></i>
                         </a>
-                        <a href="#" title="More options" class="rename-folder" data-folder-id="${data.folder.id}><i class="bi bi-pencil"></i>Rename</a>
+                        <a href="#" class="text-primary me-2 rename-folder" title="Rename"
+                           data-folder-id="${ data.folder.id }" >
+                            <i class="bi bi-pencil"></i> Rename
+                        </a>
+
 
                     </td>
                 </tr>
@@ -397,59 +433,128 @@
             });
     });
 
+{##}
+{#   $('#fileUploadForm').on('submit', function (e) {#}
+{#       e.preventDefault();#}
+{#       const formData = new FormData(this);#}
+{#       fetch("{% url "content:create_file" %}", {#}
+{#           method: 'POST',#}
+{#           headers: {'X-CSRFToken': '{{ csrf_token }}'},#}
+{#           body: formData#}
+{#       })#}
+{#           .then(response => response.json())#}
+{#           .then(data => {#}
+{#               if (data.success) {#}
+{#                   $('#file-folder-list').append(`#}
+{#               <tr id="file_${data.file.id}">#}
+{#<td>#}
+{#                   <div class="d-flex align-items-center">#}
+{##}
+{#                       <img src="${data.file.thumbnail}" alt="${data.file.name}"#}
+{#                            style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">#}
+{##}
+{##}
+{#                       <div>#}
+{#                           <a href="#" class="text-primary view-file-details file-link d-block"#}
+{#                              data-file-id="${data.file.id}" title="View Details" style="font-weight: bold;">#}
+{#                               ${data.file.name}#}
+{#                           </a>#}
+{#                           <p class="text-muted mb-0" style="font-size: small;">${data.file.created_at}</p>#}
+{#                       </div>#}
+{#                   </div>#}
+{#               </td>#}
+{#                       <td class="text-center">-</td>#}
+{#                       <td class="text-center">${data.file.type}</td>#}
+{#                       <td class="text-center">${data.file.size} KB</td>#}
+{#                       <td class="text-center">#}
+{#                           <a href="#" class="text-danger me-2 delete-file" data-file-id="${data.file.id}" title="Delete">#}
+{#                               <i class="bi bi-trash"></i>#}
+{#                           </a>#}
+{#                           <a href="#" class="text-primary me-2 rename-file" title="Rename"#}
+{#                      data-file-id="${ data.file.id }" "><i class="bi bi-pencil"></i>Rename</a>#}
+{#                       </td>#}
+{#                   </tr>#}
+{#                   `);#}
+{#                   // Reset the form and close the modal#}
+{#                   $('#fileUploadForm')[0].reset();#}
+{#                   $('#uploadFileModal').modal('hide');#}
+{#               } else {#}
+{#                   alert(data.error || 'Error adding folder');#}
+{#               }#}
+{#           })#}
+{#           .catch(error => {#}
+{#               console.error(error);#}
+{#               alert('An unexpected error occurred');#}
+{#           });#}
+{#   });#}
+
 
     $('#fileUploadForm').on('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        fetch("{% url "content:create_file" %}", {
-            method: 'POST',
-            headers: {'X-CSRFToken': '{{ csrf_token }}'},
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    $('#file-folder-list').append(`
-                <tr id="file_${data.file.id}">
-<td>
-                    <div class="d-flex align-items-center">
-
-                        <img src="${data.file.thumbnail}" alt="${data.file.name}"
-                             style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-
-
-                        <div>
-                            <a href="#" class="text-primary view-file-details file-link d-block"
-                               data-file-id="${data.file.id}" title="View Details" style="font-weight: bold;">
-                                ${data.file.name}
-                            </a>
-                            <p class="text-muted mb-0" style="font-size: small;">${data.file.created_at}</p>
-                        </div>
-                    </div>
-                </td>
-                        <td class="text-center">-</td>
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch("{% url 'content:create_file' %}", {
+        method: 'POST',
+        headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Append the new file to the file list
+                $('#file-folder-list').append(`
+                    <tr id="file_${data.file.id}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="${data.file.thumbnail}" alt="${data.file.name}"
+                                     style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                <div>
+                                    <a href="#" class="text-primary view-file-details file-link d-block"
+                                       data-file-id="${data.file.id}" title="View Details" style="font-weight: bold;">
+                                        ${data.file.name}
+                                    </a>
+                                    <p class="text-muted mb-0" style="font-size: small;">${data.file.created_at}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">${data.file.duration}</td>
                         <td class="text-center">${data.file.type}</td>
                         <td class="text-center">${data.file.size} KB</td>
                         <td class="text-center">
                             <a href="#" class="text-danger me-2 delete-file" data-file-id="${data.file.id}" title="Delete">
                                 <i class="bi bi-trash"></i>
                             </a>
-                            <a href="#" title="More options"><i class="bi bi-pencil"></i>Rename</a>
+                            <a href="#" class="text-primary me-2 rename-file" title="Rename"
+                               data-file-id="${data.file.id}">
+                                <i class="bi bi-pencil"></i>Rename
+                            </a>
                         </td>
                     </tr>
-                    `);
-                    // Reset the form and close the modal
-                    $('#fileUploadForm')[0].reset();
-                    $('#uploadFileModal').modal('hide');
-                } else {
-                    alert(data.error || 'Error adding folder');
+                `);
+                // Reset the form and close the modal
+                $('#fileUploadForm')[0].reset();
+                $('#uploadFileModal').modal('hide');
+            } else {
+                // Parse error messages and display them
+                let errorMessages = '';
+                const errors = JSON.parse(data.error);
+                for (const field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        errors[field].forEach(error => {
+                            errorMessages += `${error.message}`;
+                        });
+                    }
                 }
-            })
-            .catch(error => {
-                console.error(error);
-                alert('An unexpected error occurred');
-            });
-    });
+                // Alert with errors or display them in a custom container
+                alert(errorMessages);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert('An unexpected error occurred');
+        });
+});
+
+
 
 
     $(document).ready(function () {

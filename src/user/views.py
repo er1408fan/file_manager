@@ -57,6 +57,7 @@ def login_view(request):
          - A redirect response is returned when the user successfully logs in.
          - If the login fails, the login form is re-rendered with error messages.
     """
+    error_message = None
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
@@ -68,11 +69,12 @@ def login_view(request):
                 messages.success(request, f"Welcome back, {user}!")
                 return redirect("content:user_files_and_folders")
             else:
-                messages.error(request, "Invalid email or password.")
+                # messages.error(request, "Invalid email or password.")
+                error_message = "Invalid email or password."
     else:
         form = UserLoginForm()
 
-    return render(request, "login_register.html", {"form": form})
+    return render(request, "login_register.html", {"form": form, "error_message": error_message})
 
 
 def logout_view(request):
