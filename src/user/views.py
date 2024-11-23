@@ -69,7 +69,6 @@ def login_view(request):
                 messages.success(request, f"Welcome back, {user}!")
                 return redirect("content:user_files_and_folders")
             else:
-                # messages.error(request, "Invalid email or password.")
                 error_message = "Invalid email or password."
     else:
         form = UserLoginForm()
