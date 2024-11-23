@@ -11,18 +11,18 @@
 <body>
 
 <div class="container my-5">
-    <h1 class="mb-4">Your Files and Folders</h1>
+    <h1 class="mb-4">Result of Search for  {{  query }} </h1><br>
 
     <!-- Action buttons to add files or folders -->
-    <div class="d-flex justify-content-end mb-3">
-        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#uploadFileModal">
-            <i class="bi bi-file-earmark-plus"></i> Upload File
-        </button>
-
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFolderModal">
-            <i class="bi bi-folder-plus"></i> Add Folder
-        </button>
-    </div>
+{#    <div class="d-flex justify-content-end mb-3">#}
+{#        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#uploadFileModal">#}
+{#            <i class="bi bi-file-earmark-plus"></i> Upload File#}
+{#        </button>#}
+{##}
+{#        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFolderModal">#}
+{#            <i class="bi bi-folder-plus"></i> Add Folder#}
+{#        </button>#}
+{#    </div>#}
 
     <!-- Table for folders and files -->
     <table class="table table-hover">
@@ -45,7 +45,7 @@
                     <a href="#" class="text-primary view-file-details file-link" data-file-id="{{ file.id }}"
                        title="View Details">{{ file.name }}</a>
                 </td>
-                <td class="text-center">{{ file.duration|default:"-" }}</td>
+                <td class="text-center">{{ file.get_duration|default:"-" }}</td>
                 <td class="text-center">{{ file.file_type }}</td>
                 <td class="text-center">{{ file.size }} KB</td>
                 <td class="text-center">
