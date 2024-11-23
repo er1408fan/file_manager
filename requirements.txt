@@ -18,3 +18,4 @@ setuptools==75.5.0
 sqlparse==0.5.1
 tqdm==4.67.0
 urllib3==2.2.3
+python-magic-bin==0.4.14
